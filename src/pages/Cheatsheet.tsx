@@ -57,7 +57,7 @@ export default function Cheatsheet() {
     <div className="cheatsheet">
       <h1 className="lesson-title">React Cheatsheet</h1>
       <p className="lesson-sub">
-        Every hook, the traps that cause real bugs, and the workflows almost every app needs — structure, routing,
+        Every hook, the traps that cause real bugs, and the workflows almost every app needs: structure, routing,
         auth, RBAC and API calls.
       </p>
 

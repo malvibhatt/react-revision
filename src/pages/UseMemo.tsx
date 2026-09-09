@@ -33,7 +33,7 @@ export default function UseMemo() {
       <p className="lesson-sub">Cache the result of an expensive calculation until its dependencies change.</p>
 
       <div className="highlight">
-        <code>useMemo(fn, deps)</code> runs <code>fn</code> once, remembers the result, and only re-runs when a value in <code>deps</code> changes. Use it for <strong>derived data</strong> — don't reach for it for simple expressions.
+        <code>useMemo(fn, deps)</code> runs <code>fn</code> once, remembers the result, and only re-runs when a value in <code>deps</code> changes. Use it for <strong>derived data</strong>, not for for simple expressions.
       </div>
 
       <h2 className="section">The pattern (TrackWise's SummaryBar)</h2>
@@ -41,12 +41,12 @@ export default function UseMemo() {
   () => transactions
     .filter(t => t.type === 'income')
     .reduce((sum, t) => sum + t.amount, 0),
-  [transactions] // dependency — recomputes when this changes
+  [transactions] // dependency: recomputes when this changes
 );`}</Code>
 
       <h2 className="section">Live demo</h2>
       <div className="demo">
-        <div className="demo-label">Totals recompute when txs change — not when unrelated state changes</div>
+        <div className="demo-label">Totals recompute when txs change, not when unrelated state changes</div>
         <div>
           <div className="stat">Income <strong style={{ color: 'var(--income)' }}>${totals.income}</strong></div>
           <div className="stat">Expense <strong style={{ color: 'var(--expense)' }}>${totals.expense}</strong></div>
@@ -66,7 +66,7 @@ export default function UseMemo() {
       </ul>
 
       <h2 className="section">Angular equivalent</h2>
-      <p className="para">A pure pipe (<code>{'@Pipe({ pure: true })'}</code>) or a getter. Angular's change detection is coarser — React needs an explicit memoization primitive.</p>
+      <p className="para">A pure pipe (<code>{'@Pipe({ pure: true })'}</code>) or a getter. Angular's change detection is coarser, so React needs an explicit memoization primitive.</p>
     </>
   )
 }

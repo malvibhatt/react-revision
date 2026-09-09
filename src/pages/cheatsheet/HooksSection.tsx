@@ -26,7 +26,7 @@ export default function HooksSection() {
 
   return (
     <>
-      <h2 className="section">Every hook — when to reach for it</h2>
+      <h2 className="section">Every hook: when to reach for it</h2>
       <p className="para">
         Search by name or by the problem you have (&ldquo;expensive&rdquo;, &ldquo;listener&rdquo;, &ldquo;form&rdquo;).
       </p>
@@ -95,7 +95,7 @@ export default function HooksSection() {
 
       <h2 className="section">Rules of hooks</h2>
       <ol className="cs-rules">
-        <li><strong>Only call at the top level.</strong> Never inside conditions, loops or nested functions — React matches hooks by call order.</li>
+        <li><strong>Only call at the top level.</strong> Never inside conditions, loops or nested functions, because React matches hooks by call order.</li>
         <li><strong>Only call from React functions.</strong> Components or other custom hooks.</li>
         <li><strong>Custom hooks must start with <code>use</code>.</strong> That is how the linter enforces rules 1 and 2.</li>
         <li><strong>Install <code>eslint-plugin-react-hooks</code></strong> and never silence <code>exhaustive-deps</code> without a comment saying why.</li>
@@ -103,13 +103,13 @@ export default function HooksSection() {
 
       <div className="two-col">
         <div className="col-bad">
-          <div className="col-head">Breaks — order changes between renders</div>
+          <div className="col-head">Breaks: order changes between renders</div>
           <Code>{`if (isLoggedIn) {
   const [x] = useState(0);
 }`}</Code>
         </div>
         <div className="col-good">
-          <div className="col-head">Works — hook at top, condition inside</div>
+          <div className="col-head">Works: hook at top, condition inside</div>
           <Code>{`const [x, setX] = useState(0);
 
 if (isLoggedIn) {

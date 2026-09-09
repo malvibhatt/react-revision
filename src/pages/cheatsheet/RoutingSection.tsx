@@ -78,10 +78,10 @@ export const router = createBrowserRouter([
       <h2 className="section">Lazy-loading checklist</h2>
       <ul className="mistakes">
         <li><strong>Split at the route level first.</strong> Biggest bundle win for the least effort.</li>
-        <li><strong>Then split heavy widgets</strong> inside a page — charts, rich-text editors, maps, PDF viewers.</li>
+        <li><strong>Then split heavy widgets</strong> inside a page: charts, rich-text editors, maps, PDF viewers.</li>
         <li><strong>Prefetch on hover</strong> so the chunk is already there by the time the click lands.</li>
         <li><strong>Give Suspense a real skeleton</strong> that matches the page shape, not a blank screen or a bare spinner.</li>
-        <li><strong>Wrap lazy routes in an error boundary.</strong> After a redeploy an old chunk URL 404s — offer a reload instead of a white page.</li>
+        <li><strong>Wrap lazy routes in an error boundary.</strong> After a redeploy an old chunk URL 404s, so offer a reload instead of a white page.</li>
       </ul>
 
       <Code>{`// prefetch the chunk before the user clicks

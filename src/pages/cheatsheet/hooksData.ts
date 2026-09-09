@@ -23,12 +23,12 @@ export const HOOKS: HookDef[] = [
 // ALWAYS use the updater form when the new value depends on the old one
 setCount(prev => prev + 1);   // safe in batches & async callbacks
 setCount(count + 1);          // stale inside loops / timers / promises`,
-    extraLabel: 'Lazy initialiser — expensive work runs only on mount',
+    extraLabel: 'Lazy initialiser: expensive work runs only on mount',
     extraCode: `const [rows, setRows] = useState(
   () => JSON.parse(localStorage.getItem('rows') ?? '[]')
 );`,
     notes: [
-      'State updates are asynchronous — reading the variable right after setting it gives you the old value.',
+      'State updates are asynchronous, so reading the variable right after setting it gives you the old value.',
       'Passing a value runs the expression on every render; passing a function runs it once.',
     ],
   },
@@ -36,7 +36,7 @@ setCount(count + 1);          // stale inside loops / timers / promises`,
     name: 'useReducer',
     category: 'State',
     signature: 'const [state, dispatch] = useReducer(reducer, initialState)',
-    when: 'State is complex or fields move together: forms, wizards, data tables, undo/redo. Rule of thumb — 4+ useState calls that always change in sync.',
+    when: 'State is complex or fields move together: forms, wizards, data tables, undo/redo. Rule of thumb: 4+ useState calls that always change in sync.',
     code: `type State = { loading: boolean; data: User[]; error: string | null };
 type Action =
   | { type: 'FETCH_START' }
@@ -55,7 +55,7 @@ function reducer(state: State, action: Action): State {
 const [state, dispatch] = useReducer(reducer, { loading: false, data: [], error: null });
 dispatch({ type: 'FETCH_START' });`,
     notes: [
-      'dispatch is referentially stable — safe to pass to children without useCallback.',
+      'dispatch is referentially stable, safe to pass to children without useCallback.',
       'All transition logic lives in one testable pure function instead of scattered handlers.',
     ],
   },
@@ -67,7 +67,7 @@ dispatch({ type: 'FETCH_START' });`,
     avoid: 'Deriving state from props (just compute it) or reacting to a user action (do it in the handler).',
     code: `useEffect(() => {
   const id = setInterval(() => tick(), 1000);
-  return () => clearInterval(id);   // cleanup — prevents a memory leak
+  return () => clearInterval(id);   // cleanup: prevents a memory leak
 }, []);                              // [] = run once on mount`,
     extraLabel: 'Dependency array behaviour',
     extraCode: `useEffect(fn)          // after EVERY render
@@ -75,7 +75,7 @@ useEffect(fn, [])      // once on mount, cleanup on unmount
 useEffect(fn, [a, b])  // on mount + whenever a or b changes`,
     notes: [
       'The returned function runs before the next effect and on unmount.',
-      'In dev StrictMode effects run twice on purpose — it exposes missing cleanup.',
+      'In dev StrictMode effects run twice on purpose, which exposes missing cleanup.',
     ],
   },
   {
@@ -83,7 +83,7 @@ useEffect(fn, [a, b])  // on mount + whenever a or b changes`,
     category: 'Effect',
     signature: 'useLayoutEffect(setup, deps?)',
     when: 'You must read layout (getBoundingClientRect, scrollHeight) and synchronously reposition, to avoid a visible flicker.',
-    avoid: 'Everything else — it blocks paint. Default to useEffect.',
+    avoid: 'Everything else, because it blocks paint. Default to useEffect.',
     code: `useLayoutEffect(() => {
   const { height } = ref.current.getBoundingClientRect();
   setTooltipTop(height + 8);   // applied before paint → no flash
@@ -95,7 +95,7 @@ useEffect(fn, [a, b])  // on mount + whenever a or b changes`,
     category: 'Context',
     signature: 'const value = useContext(SomeContext)',
     when: 'Sharing low-frequency global values without prop drilling: theme, auth user, locale, feature flags.',
-    avoid: 'High-frequency values (mouse position, form keystrokes) — every consumer re-renders.',
+    avoid: 'High-frequency values (mouse position, form keystrokes): every consumer re-renders.',
     code: `const ThemeContext = createContext<'light' | 'dark'>('light');
 
 // provider
@@ -132,7 +132,7 @@ timerRef.current = window.setTimeout(...);   // changing .current does NOT re-re
     category: 'Performance',
     signature: 'const value = useMemo(() => compute(a), [a])',
     when: 'A genuinely expensive computation, OR the result is an object/array passed to a memoized child or used in a dependency array (referential stability).',
-    avoid: 'Simple arithmetic — the memo bookkeeping costs more than the maths.',
+    avoid: 'Simple arithmetic, where the memo bookkeeping costs more than the maths.',
     code: `const sorted = useMemo(
   () => [...items].sort((a, b) => a.price - b.price),
   [items]
@@ -144,7 +144,7 @@ timerRef.current = window.setTimeout(...);   // changing .current does NOT re-re
     category: 'Performance',
     signature: 'const fn = useCallback(callback, [deps])',
     when: 'The function is passed to a React.memo child, or used as an effect / hook dependency.',
-    avoid: 'Plain handlers on plain DOM elements — pure overhead.',
+    avoid: 'Plain handlers on plain DOM elements, which are pure overhead.',
     code: `const handleSelect = useCallback((id: string) => setSelected(id), []);
 
 <MemoizedRow onSelect={handleSelect} />   // Row no longer re-renders needlessly`,
@@ -154,22 +154,22 @@ timerRef.current = window.setTimeout(...);   // changing .current does NOT re-re
     name: 'useTransition',
     category: 'Performance',
     signature: 'const [isPending, startTransition] = useTransition()',
-    when: 'A heavy state update freezes the UI — typing in a filter box over a huge list, switching a slow tab.',
+    when: 'A heavy state update freezes the UI: typing in a filter box over a huge list, switching a slow tab.',
     code: `const [isPending, startTransition] = useTransition();
 
 function onChange(e) {
-  setQuery(e.target.value);                                    // urgent — input stays snappy
+  setQuery(e.target.value);                                    // urgent: input stays snappy
   startTransition(() => setResults(filter(e.target.value)));   // low priority, interruptible
 }
 
 {isPending && <Spinner />}`,
-    notes: ['Only for state updates — you cannot await inside and keep the pending flag in React 18.'],
+    notes: ['Only for state updates: you cannot await inside and keep the pending flag in React 18.'],
   },
   {
     name: 'useDeferredValue',
     category: 'Performance',
     signature: 'const deferred = useDeferredValue(value)',
-    when: 'Same problem as useTransition, but you cannot reach the setState call — e.g. the value arrives as a prop.',
+    when: 'Same problem as useTransition, but you cannot reach the setState call, e.g. the value arrives as a prop.',
     code: `const deferredQuery = useDeferredValue(query);
 const list = useMemo(() => filter(deferredQuery), [deferredQuery]);
 
@@ -180,7 +180,7 @@ const isStale = query !== deferredQuery;   // dim the list while catching up`,
     category: 'Utility',
     signature: 'const id = useId()',
     when: 'Generating unique, SSR-safe ids to link form controls and labels or aria attributes.',
-    avoid: 'List keys — use your data id.',
+    avoid: 'List keys: use your data id.',
     code: `const id = useId();
 
 <label htmlFor={id}>Email</label>
@@ -191,7 +191,7 @@ const isStale = query !== deferredQuery;   // dim the list while catching up`,
     name: 'useImperativeHandle',
     category: 'Ref',
     signature: 'useImperativeHandle(ref, createHandle, [deps])',
-    when: 'A reusable component must expose imperative methods to its parent — modal.open(), input.focus(), player.play().',
+    when: 'A reusable component must expose imperative methods to its parent: modal.open(), input.focus(), player.play().',
     avoid: 'Anything props can express declaratively.',
     code: `const Modal = forwardRef((props, ref) => {
   const [open, setOpen] = useState(false);
@@ -221,7 +221,7 @@ modalRef.current?.open();`,
   () => navigator.onLine,   // client snapshot
   () => true                // server snapshot (SSR)
 );`,
-    notes: ['getSnapshot must return a cached value — returning a new object each call causes an infinite loop.'],
+    notes: ['getSnapshot must return a cached value, because returning a new object each call causes an infinite loop.'],
   },
   {
     name: 'useDebugValue',
@@ -240,7 +240,7 @@ modalRef.current?.open();`,
     signature: 'const value = use(promiseOrContext)',
     when: 'Reading a promise during render (suspends until it resolves) or reading context conditionally.',
     code: `function Comments({ promise }) {
-  const comments = use(promise);   // suspends — needs a <Suspense> above
+  const comments = use(promise);   // suspends: needs a <Suspense> above
   return comments.map(c => <p key={c.id}>{c.text}</p>);
 }
 
@@ -272,7 +272,7 @@ modalRef.current?.open();`,
     name: 'useOptimistic',
     category: 'React 19',
     signature: 'const [optimistic, addOptimistic] = useOptimistic(state, updateFn)',
-    when: 'Showing the result instantly while the request is still in flight — likes, todos, chat messages.',
+    when: 'Showing the result instantly while the request is still in flight: likes, todos, chat messages.',
     code: `const [optimisticTodos, addOptimistic] = useOptimistic(
   todos,
   (curr, newTodo) => [...curr, { ...newTodo, pending: true }]

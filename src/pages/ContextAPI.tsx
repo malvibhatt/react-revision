@@ -71,7 +71,7 @@ const CounterContext = createContext<CounterCtx | null>(null);
 // 3. Consume anywhere below
 const { count, increment } = useContext(CounterContext);`}</Code>
 
-      <h2 className="section">Live demo — one Provider, deeply nested readers</h2>
+      <h2 className="section">Live demo: one Provider, deeply nested readers</h2>
       <CounterProvider>
         <div className="demo">
           <div className="demo-label">Provider is at the top; wrappers below don't know about the counter</div>

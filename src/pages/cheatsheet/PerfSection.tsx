@@ -16,7 +16,7 @@ export default function PerfSection() {
   return (
     <>
       <h2 className="section">Performance toolkit</h2>
-      <p className="para">Pick the tool that matches the symptom — not all of them at once.</p>
+      <p className="para">Pick the tool that matches the symptom, not all of them at once.</p>
 
       <table className="map">
         <thead>
@@ -81,7 +81,7 @@ function Page() {
   return <><SearchBox value={query} onChange={setQuery} /><ExpensiveList /></>;
 }
 
-// After: state lives where it is used — ExpensiveList never re-renders
+// After: state lives where it is used, so ExpensiveList never re-renders
 function SearchBox() {
   const [query, setQuery] = useState('');
   return <input value={query} onChange={e => setQuery(e.target.value)} />;

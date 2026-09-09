@@ -6,7 +6,7 @@ A practical reference: hooks, gotchas, and the workflows almost every app needs.
 
 ## Table of Contents
 
-1. [Hooks — When to Use Which](#1-hooks--when-to-use-which)
+1. [Hooks: When to Use Which](#1-hooks-when-to-use-which)
 2. [Rules of Hooks](#2-rules-of-hooks)
 3. [Tips & Gotchas (with the *why*)](#3-tips--gotchas-with-the-why)
 4. [Performance Optimization Toolkit](#4-performance-optimization-toolkit)
@@ -20,9 +20,9 @@ A practical reference: hooks, gotchas, and the workflows almost every app needs.
 
 ---
 
-## 1. Hooks — When to Use Which
+## 1. Hooks: When to Use Which
 
-### `useState` — local, simple state
+### `useState`: local, simple state
 
 **Use when:** 1–3 independent values, simple transitions.
 
@@ -34,7 +34,7 @@ setCount(prev => prev + 1);   // safe in batches/async
 setCount(count + 1);          // stale in loops & async callbacks
 ```
 
-**Lazy init** — pass a function so the expensive work runs only on mount:
+**Lazy init**: pass a function so the expensive work runs only on mount:
 
 ```tsx
 const [rows, setRows] = useState(() => JSON.parse(localStorage.getItem('rows') ?? '[]'));
@@ -42,7 +42,7 @@ const [rows, setRows] = useState(() => JSON.parse(localStorage.getItem('rows') ?
 
 ---
 
-### `useReducer` — complex / related state
+### `useReducer`: complex / related state
 
 **Use when:** next state depends on previous, many fields change together, or you have 4+ `useState` calls that always move in sync (forms, wizards, data-tables, undo/redo).
 
@@ -66,11 +66,11 @@ const [state, dispatch] = useReducer(reducer, { loading: false, data: [], error:
 dispatch({ type: 'FETCH_START' });
 ```
 
-> **Bonus:** `dispatch` is referentially stable — safe to pass down without `useCallback`.
+> **Bonus:** `dispatch` is referentially stable, safe to pass down without `useCallback`.
 
 ---
 
-### `useEffect` — synchronize with the outside world
+### `useEffect`: synchronize with the outside world
 
 **Use when:** subscriptions, timers, event listeners, logging, manual DOM work, data fetching (if not using a data library).
 
@@ -93,7 +93,7 @@ Dependency array cheat:
 
 ---
 
-### `useLayoutEffect` — measure/mutate DOM before paint
+### `useLayoutEffect`: measure/mutate DOM before paint
 
 **Use when:** you must read layout (`getBoundingClientRect`) and synchronously re-position, to avoid a visible flicker. Otherwise prefer `useEffect` (it doesn't block paint).
 
@@ -106,9 +106,9 @@ useLayoutEffect(() => {
 
 ---
 
-### `useContext` — read shared state without prop drilling
+### `useContext`: read shared state without prop drilling
 
-**Use when:** theme, auth user, locale, feature flags — low-frequency global values.
+**Use when:** theme, auth user, locale, feature flags: low-frequency global values.
 
 ```tsx
 const ThemeContext = createContext<'light' | 'dark'>('light');
@@ -124,7 +124,7 @@ const theme = useContext(ThemeContext);
 
 ---
 
-### `useRef` — a mutable box that doesn't cause re-render
+### `useRef`: a mutable box that doesn't cause re-render
 
 Two jobs:
 
@@ -143,7 +143,7 @@ timerRef.current = window.setTimeout(...);   // changing .current does NOT re-re
 
 ---
 
-### `useMemo` — cache an expensive *value*
+### `useMemo`: cache an expensive *value*
 
 ```tsx
 const sorted = useMemo(
@@ -156,7 +156,7 @@ const sorted = useMemo(
 
 ---
 
-### `useCallback` — cache a *function* reference
+### `useCallback`: cache a *function* reference
 
 ```tsx
 const handleSelect = useCallback((id: string) => setSelected(id), []);
@@ -167,7 +167,7 @@ const handleSelect = useCallback((id: string) => setSelected(id), []);
 
 ---
 
-### `useTransition` — keep the UI responsive during heavy updates
+### `useTransition`: keep the UI responsive during heavy updates
 
 **Use when:** typing in a filter box freezes a large list.
 
@@ -175,7 +175,7 @@ const handleSelect = useCallback((id: string) => setSelected(id), []);
 const [isPending, startTransition] = useTransition();
 
 function onChange(e) {
-  setQuery(e.target.value);                  // urgent — input stays snappy
+  setQuery(e.target.value);                  // urgent: input stays snappy
   startTransition(() => setResults(filter(e.target.value)));  // low priority
 }
 {isPending && <Spinner />}
@@ -183,7 +183,7 @@ function onChange(e) {
 
 ---
 
-### `useDeferredValue` — the "no wiring" version of the above
+### `useDeferredValue`: the "no wiring" version of the above
 
 ```tsx
 const deferredQuery = useDeferredValue(query);
@@ -194,7 +194,7 @@ Use when you can't reach the `setState` call (e.g. value comes from props).
 
 ---
 
-### `useId` — stable unique IDs for a11y
+### `useId`: stable unique IDs for a11y
 
 ```tsx
 const id = useId();
@@ -206,9 +206,9 @@ Never use for list `key`s. SSR-safe (matches server + client).
 
 ---
 
-### `useImperativeHandle` — expose methods from a child
+### `useImperativeHandle`: expose methods from a child
 
-**Use sparingly** — for reusable components like modals or inputs.
+**Use sparingly**, for reusable components like modals or inputs.
 
 ```tsx
 const Modal = forwardRef((props, ref) => {
@@ -222,7 +222,7 @@ modalRef.current?.open();
 
 ---
 
-### `useSyncExternalStore` — subscribe to a non-React store
+### `useSyncExternalStore`: subscribe to a non-React store
 
 **Use when:** wrapping browser APIs or external state (Redux-style stores, `localStorage`, media queries). Tear-free in concurrent rendering.
 
@@ -237,7 +237,7 @@ const isOnline = useSyncExternalStore(
 
 ---
 
-### `useDebugValue` — label custom hooks in React DevTools
+### `useDebugValue`: label custom hooks in React DevTools
 
 ```tsx
 useDebugValue(isOnline ? 'Online' : 'Offline');
@@ -247,7 +247,7 @@ useDebugValue(isOnline ? 'Online' : 'Offline');
 
 ### React 19 hooks
 
-#### `use` — read a promise or context conditionally
+#### `use`: read a promise or context conditionally
 
 ```tsx
 function Comments({ promise }) {
@@ -258,7 +258,7 @@ function Comments({ promise }) {
 
 Unlike other hooks, `use` **can** be called inside conditions/loops.
 
-#### `useActionState` — form submission state
+#### `useActionState`: form submission state
 
 ```tsx
 const [state, formAction, isPending] = useActionState(
@@ -276,7 +276,7 @@ const [state, formAction, isPending] = useActionState(
 </form>
 ```
 
-#### `useOptimistic` — instant UI, reconcile later
+#### `useOptimistic`: instant UI, reconcile later
 
 ```tsx
 const [optimisticTodos, addOptimistic] = useOptimistic(
@@ -290,7 +290,7 @@ async function submit(formData) {
 }
 ```
 
-#### `useFormStatus` — read parent form state from a child
+#### `useFormStatus`: read parent form state from a child
 
 ```tsx
 function SubmitButton() {
@@ -303,13 +303,13 @@ function SubmitButton() {
 
 ## 2. Rules of Hooks
 
-1. **Only call at the top level** — never inside conditions, loops, or nested functions. React matches hooks by call order.
-2. **Only call from React functions** — components or other custom hooks.
-3. **Custom hooks must start with `use`** — that's how the linter enforces rules 1 & 2.
+1. **Only call at the top level**, never inside conditions, loops, or nested functions. React matches hooks by call order.
+2. **Only call from React functions**, components or other custom hooks.
+3. **Custom hooks must start with `use`**: that's how the linter enforces rules 1 & 2.
 4. Install `eslint-plugin-react-hooks` and never silence `exhaustive-deps` without a comment explaining why.
 
 ```tsx
-// ❌ conditional hook — order changes between renders
+// ❌ conditional hook: order changes between renders
 if (isLoggedIn) { const [x] = useState(0); }
 
 // ✅ hook at top, condition inside
@@ -321,7 +321,7 @@ if (isLoggedIn) { /* use x */ }
 
 ## 3. Tips & Gotchas (with the *why*)
 
-### 3.1 Always clean up — **purpose: prevent memory leaks & state updates on unmounted components**
+### 3.1 Always clean up, **purpose: prevent memory leaks & state updates on unmounted components**
 
 ```tsx
 useEffect(() => {
@@ -333,7 +333,7 @@ useEffect(() => {
 
 Things that **must** be cleaned up: `setTimeout` / `setInterval`, event listeners, WebSocket / EventSource, `IntersectionObserver` / `ResizeObserver` / `MutationObserver`, store subscriptions, in-flight fetches.
 
-### 3.2 Abort in-flight requests — **purpose: avoid race conditions & leaks**
+### 3.2 Abort in-flight requests, **purpose: avoid race conditions & leaks**
 
 ```tsx
 useEffect(() => {
@@ -347,7 +347,7 @@ useEffect(() => {
 
 Without this, switching `id` fast means the **slower, older** response can overwrite the newer one.
 
-### 3.3 Never mutate state — **purpose: React compares by reference**
+### 3.3 Never mutate state, **purpose: React compares by reference**
 
 ```tsx
 // ❌ same reference → no re-render
@@ -359,14 +359,14 @@ setUser(prev => ({ ...prev, name }));               // shallow
 setState(prev => ({ ...prev, addr: { ...prev.addr, city } }));  // nested needs each level
 ```
 
-### 3.4 Stable, meaningful `key`s — **purpose: correct reconciliation**
+### 3.4 Stable, meaningful `key`s, **purpose: correct reconciliation**
 
 ```tsx
-{items.map((it, i) => <Row key={i} />)}    // ❌ breaks on insert/delete/sort — wrong DOM reused
+{items.map((it, i) => <Row key={i} />)}    // ❌ breaks on insert/delete/sort: wrong DOM reused
 {items.map(it => <Row key={it.id} />)}     // ✅
 ```
 
-### 3.5 Functional updates in async code — **purpose: avoid stale closures**
+### 3.5 Functional updates in async code, **purpose: avoid stale closures**
 
 ```tsx
 useEffect(() => {
@@ -376,7 +376,7 @@ useEffect(() => {
 }, []);
 ```
 
-### 3.6 Don't derive state into state — **purpose: single source of truth**
+### 3.6 Don't derive state into state, **purpose: single source of truth**
 
 ```tsx
 // ❌ two sources of truth + an extra render
@@ -393,7 +393,7 @@ const total = items.reduce((s, i) => s + i.price, 0);
 {data?.items?.map(...) ?? <EmptyState />}
 ```
 
-### 3.8 Effects run twice in dev StrictMode — **purpose: it surfaces missing cleanup**
+### 3.8 Effects run twice in dev StrictMode, **purpose: it surfaces missing cleanup**
 
 Don't disable StrictMode; fix the effect so it's idempotent.
 
@@ -483,7 +483,7 @@ src/
 │       ├── types/meal.types.ts
 │       └── index.ts            # public surface of the feature
 ├── hooks/                      # shared hooks: useDebounce, useFetch…
-├── pages/                      # route-level screens, thin — compose features
+├── pages/                      # route-level screens, thin, compose features
 │   ├── Login/LoginPage.tsx
 │   └── Dashboard/DashboardPage.tsx
 ├── reducers/                   # or store/ if using Redux/Zustand
@@ -503,7 +503,7 @@ src/
 **Rules that keep it clean**
 
 - `pages/` are thin: fetch + layout + compose. No business logic.
-- A feature may import from `components/`, `hooks/`, `utils/` — but **never from another feature's internals**, only its `index.ts`.
+- A feature may import from `components/`, `hooks/`, `utils/`, but **never from another feature's internals**, only its `index.ts`.
 - Every API call lives in an `api/` file, never inline in a component.
 - Types live next to their feature; only truly shared types go in `src/types/`.
 - Path aliases (`@/features/meals`) beat `../../../`.
@@ -573,17 +573,17 @@ const location = useLocation();          // location.pathname, location.state
 
 **Lazy-loading tips**
 
-- Split at the **route** level first — biggest win for the least effort.
+- Split at the **route** level first: biggest win for the least effort.
 - Also lazy-load heavy widgets (charts, editors, maps) inside a page.
 - Prefetch on hover to hide the latency: `onMouseEnter={() => import('@/pages/Meals/MealsPage')}`.
 - Always give `<Suspense>` a real skeleton, not a blank screen.
-- Wrap lazy routes in an error boundary — a failed chunk load (after a redeploy) should offer a reload, not a white page.
+- Wrap lazy routes in an error boundary, because a failed chunk load (after a redeploy) should offer a reload, not a white page.
 
 ---
 
 ## 7. Auth: Context + Axios Interceptor + Guards
 
-> High-level shape — wire your own token storage and endpoints.
+> High-level shape: wire your own token storage and endpoints.
 
 ### 7.1 Axios instance
 
@@ -599,7 +599,7 @@ export const api = axios.create({
 });
 ```
 
-### 7.2 Interceptors — attach token, refresh on 401, normalize errors
+### 7.2 Interceptors: attach token, refresh on 401, normalize errors
 
 ```ts
 // src/api/interceptors.ts
@@ -811,7 +811,7 @@ export const mealsApi = {
 };
 ```
 
-### 9.2 GET — reusable hook with loading / error / abort
+### 9.2 GET: reusable hook with loading / error / abort
 
 ```tsx
 // src/features/meals/hooks/useMeals.ts
@@ -837,7 +837,7 @@ export function useMeals(query: string) {
 ```
 
 ```tsx
-// consuming component — always render all four states
+// consuming component: always render all four states
 function MealsPage() {
   const [query, setQuery] = useState('');
   const debounced = useDebounce(query, 400);
@@ -851,7 +851,7 @@ function MealsPage() {
 }
 ```
 
-### 9.3 POST — submit with pending state, field errors, and no double-submit
+### 9.3 POST: submit with pending state, field errors, and no double-submit
 
 ```tsx
 function CreateMealForm() {
@@ -927,7 +927,7 @@ const { mutate, isPending } = useMutation({
 ## 10. Custom Hooks Worth Owning
 
 ```tsx
-// useDebounce — delay expensive work (search, autosave)
+// useDebounce: delay expensive work (search, autosave)
 export function useDebounce<T>(value: T, delay = 400): T {
   const [debounced, setDebounced] = useState(value);
   useEffect(() => {
@@ -937,7 +937,7 @@ export function useDebounce<T>(value: T, delay = 400): T {
   return debounced;
 }
 
-// useLocalStorage — persisted state
+// useLocalStorage: persisted state
 export function useLocalStorage<T>(key: string, initial: T) {
   const [value, setValue] = useState<T>(() => {
     try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : initial; }
@@ -953,7 +953,7 @@ export const useToggle = (init = false) => {
   return [on, useCallback(() => setOn(v => !v), [])] as const;
 };
 
-// useClickOutside — close dropdowns/modals
+// useClickOutside: close dropdowns/modals
 export function useClickOutside<T extends HTMLElement>(ref: RefObject<T>, onOut: () => void) {
   useEffect(() => {
     const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) onOut(); };
@@ -1002,7 +1002,7 @@ export function usePrevious<T>(value: T) {
 - [ ] Every fetch in an effect is abortable
 - [ ] `key`s are stable ids, not indexes
 - [ ] Loading / error / empty / success states all render something
-- [ ] No state mutation — new references everywhere
+- [ ] No state mutation, new references everywhere
 - [ ] Context `value` is memoized
 - [ ] Async setState uses the updater form
 - [ ] `finally` resets `submitting` on both success and failure

@@ -59,7 +59,7 @@ export default function StructureSection() {
       <h2 className="section">The rules that keep it clean</h2>
       <ul className="mistakes">
         <li><strong>Pages stay thin.</strong> Fetch, lay out, compose. No business logic, no inline API calls.</li>
-        <li><strong>Features are sealed.</strong> A feature may import from <code>components/</code>, <code>hooks/</code> and <code>utils/</code>, but never reach into another feature&apos;s internals — only its <code>index.ts</code>.</li>
+        <li><strong>Features are sealed.</strong> A feature may import from <code>components/</code>, <code>hooks/</code> and <code>utils/</code>, but never reach into another feature&apos;s internals, only its <code>index.ts</code>.</li>
         <li><strong>Every HTTP call lives in an <code>api/</code> file.</strong> Components never see axios.</li>
         <li><strong>Types live beside their feature.</strong> Only genuinely shared shapes go in <code>src/types/</code>.</li>
         <li><strong>Use path aliases.</strong> <code>@/features/meals</code> beats <code>../../../features/meals</code>.</li>
@@ -103,7 +103,7 @@ resolve: {
 "paths": { "@/*": ["./src/*"] }`}</Code>
 
       <h2 className="section">Composing providers</h2>
-      <Code>{`// src/app/providers.tsx — keeps main.tsx from becoming a pyramid
+      <Code>{`// src/app/providers.tsx: keeps main.tsx from becoming a pyramid
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>

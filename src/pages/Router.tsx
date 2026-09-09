@@ -39,23 +39,23 @@ export default function Router() {
         Wrap the app in <code>{'<BrowserRouter>'}</code> once at the root. Declare routes in <code>{'<Routes>'}</code>. Navigate with <code>{'<Link>'}</code> or the <code>useNavigate</code> hook.
       </div>
 
-      <h2 className="section">Setup — 3 lines you need</h2>
-      <Code>{`// main.tsx — wrap once
+      <h2 className="section">Setup: 3 lines you need</h2>
+      <Code>{`// main.tsx: wrap once
 <BrowserRouter><App /></BrowserRouter>
 
-// App.tsx — declare routes
+// App.tsx: declare routes
 <Routes>
   <Route path="/" element={<Dashboard />} />
   <Route path="/history" element={<History />} />
   <Route path="/user/:id" element={<User />} />
 </Routes>
 
-// Anywhere — navigate
+// Anywhere: navigate
 <Link to="/history">History</Link>`}</Code>
 
-      <h2 className="section">Live demo — nested routes</h2>
+      <h2 className="section">Live demo: nested routes</h2>
       <div className="demo">
-        <div className="demo-label">Click a link — the outlet swaps</div>
+        <div className="demo-label">Click a link and the outlet swaps</div>
         <div>
           <Link to="/router/home" className="action" style={{ display: 'inline-block', textDecoration: 'none' }}>/router/home</Link>
           <Link to="/router/about" className="action" style={{ display: 'inline-block', textDecoration: 'none' }}>/router/about</Link>
