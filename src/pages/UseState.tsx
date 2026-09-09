@@ -24,7 +24,7 @@ export default function UseState() {
       <p className="lesson-sub">The core hook for local, reactive state inside a component.</p>
 
       <div className="highlight">
-        <code>useState</code> returns a <strong>[value, setter]</strong> tuple. Call the setter to schedule a re-render. Never mutate the value directly — always pass a new reference.
+        <code>useState</code> returns a <strong>[value, setter]</strong> tuple. Call the setter to schedule a re-render. Never mutate the value directly. Always pass a new reference.
       </div>
 
       <h2 className="section">Basic form</h2>
@@ -36,27 +36,27 @@ setCount(5);
 // ...or a function of the previous value (safer when updating from stale state)
 setCount((prev) => prev + 1);`}</Code>
 
-      <h2 className="section">Live demo — counter</h2>
+      <h2 className="section">Live demo: counter</h2>
       <div className="demo">
-        <div className="demo-label">Two setter forms — same result</div>
+        <div className="demo-label">Two setter forms, same result</div>
         <button className="action" onClick={() => setCount(count + 1)}>Direct: count + 1</button>
         <button className="action" onClick={() => setCount((c) => c + 1)}>Functional: prev + 1</button>
         <button className="action ghost" onClick={() => setCount(0)}>Reset</button>
         <div className="stat">Count <strong>{count}</strong></div>
       </div>
 
-      <h2 className="section">Never mutate — always spread</h2>
-      <Code>{`// WRONG — mutates existing array, React can't detect the change
+      <h2 className="section">Never mutate, always spread</h2>
+      <Code>{`// WRONG: mutates existing array, React can't detect the change
 items.push(newItem);
 setItems(items);
 
-// RIGHT — new array reference
+// RIGHT: new array reference
 setItems((prev) => [...prev, newItem]);
 
-// RIGHT — filter to remove
+// RIGHT: filter to remove
 setItems((prev) => prev.filter(i => i.id !== id));`}</Code>
 
-      <h2 className="section">Live demo — list add/remove</h2>
+      <h2 className="section">Live demo: list add/remove</h2>
       <div className="demo">
         <div className="demo-label">Controlled input + immutable updates</div>
         <input
@@ -79,7 +79,7 @@ setItems((prev) => prev.filter(i => i.id !== id));`}</Code>
       </div>
 
       <h2 className="section">Angular equivalent</h2>
-      <p className="para">A public class property on the component. Change detection watches it. React needs the setter because it doesn't run change detection zones — the setter is the signal.</p>
+      <p className="para">A public class property on the component. Change detection watches it. React needs the setter because it doesn't run change detection zones, so the setter is the signal.</p>
     </>
   )
 }

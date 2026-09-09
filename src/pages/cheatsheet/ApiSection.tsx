@@ -5,7 +5,7 @@ export default function ApiSection() {
     <>
       <h2 className="section">The API layer</h2>
       <p className="para">
-        Every endpoint gets one typed function. Components import the function, never axios — so a URL change touches one file
+        Every endpoint gets one typed function. Components import the function, never axios, so a URL change touches one file
         and mocking in tests is trivial.
       </p>
 
@@ -30,7 +30,7 @@ export const mealsApi = {
   remove: (id: string) => api.delete<void>(\`/meals/\${id}\`),
 };`}</Code>
 
-      <h2 className="section">GET — a reusable hook with loading, error and abort</h2>
+      <h2 className="section">GET: a reusable hook with loading, error and abort</h2>
       <Code>{`// src/features/meals/hooks/useMeals.ts
 export function useMeals(query: string) {
   const [state, dispatch] = useReducer(reducer, { loading: true, data: [], error: null });
@@ -53,7 +53,7 @@ export function useMeals(query: string) {
   return state;
 }`}</Code>
 
-      <h2 className="section">Render all four states — always</h2>
+      <h2 className="section">Render all four states, always</h2>
       <div className="state-row">
         <span className="state-pill s-load">loading</span>
         <span className="state-pill s-err">error</span>
@@ -72,11 +72,11 @@ export function useMeals(query: string) {
   return <MealList meals={data} />;
 }`}</Code>
       <p className="para">
-        &ldquo;Empty&rdquo; is the state everyone forgets — a successful response with zero rows should say so, not render a blank area
+        &ldquo;Empty&rdquo; is the state everyone forgets. A successful response with zero rows should say so, not render a blank area
         that looks broken.
       </p>
 
-      <h2 className="section">POST — submit, field errors, no double-submit</h2>
+      <h2 className="section">POST: submit, field errors, no double-submit</h2>
       <Code>{`function CreateMealForm() {
   const [form, setForm] = useState<CreateMealDto>({ name: '', calories: 0 });
   const [submitting, setSubmitting] = useState(false);
@@ -148,7 +148,7 @@ export function useMeals(query: string) {
 
       <h2 className="section">The same thing with React Query</h2>
       <p className="para">
-        For a real app, reach for TanStack Query. Caching, deduping, retries, background refetch and cancellation come free —
+        For a real app, reach for TanStack Query. Caching, deduping, retries, background refetch and cancellation come free,
         the hand-rolled hook above is what it replaces.
       </p>
       <Code>{`const { data, isLoading, error, refetch } = useQuery({

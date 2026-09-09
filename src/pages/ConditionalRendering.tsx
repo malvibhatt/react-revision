@@ -11,7 +11,7 @@ export default function ConditionalRendering() {
       <p className="lesson-sub">JSX has no <code>*ngIf</code>. You use plain JS: early returns, <code>&amp;&amp;</code>, and ternaries.</p>
 
       <div className="highlight">
-        JSX evaluates JavaScript inside <code>{'{ }'}</code>. That means <em>any</em> JS expression works — return early, short-circuit with <code>&amp;&amp;</code>, pick with a ternary. There's no special template syntax.
+        JSX evaluates JavaScript inside <code>{'{ }'}</code>. That means <em>any</em> JS expression works: return early, short-circuit with <code>&amp;&amp;</code>, pick with a ternary. There's no special template syntax.
       </div>
 
       <h2 className="section">1. Early return</h2>
@@ -19,10 +19,10 @@ export default function ConditionalRendering() {
 
 return <ul>{items.map(i => <li key={i}>{i}</li>)}</ul>;`}</Code>
 
-      <h2 className="section">2. && — render only when truthy</h2>
+      <h2 className="section">2. && renders only when truthy</h2>
       <Code>{`{items.length > 0 && <h2>Showing {items.length} items</h2>}`}</Code>
 
-      <h2 className="section">3. Ternary — render one or the other</h2>
+      <h2 className="section">3. Ternary: render one or the other</h2>
       <Code>{`{balance >= 0
   ? <p style={{ color: 'green' }}>You're in profit</p>
   : <p style={{ color: 'red' }}>You're in deficit</p>}`}</Code>
@@ -68,7 +68,7 @@ return <ul>{items.map(i => <li key={i}>{i}</li>)}</ul>;`}</Code>
         </div>
       </div>
 
-      <h2 className="section">Watch out — the "zero bug"</h2>
+      <h2 className="section">Watch out for the "zero bug"</h2>
       <Code>{`// If items.length === 0, React renders the literal "0"
 {items.length && <List items={items} />}
 

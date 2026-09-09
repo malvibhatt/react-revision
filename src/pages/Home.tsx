@@ -29,7 +29,7 @@ const cards = [
     num: "Concept 05",
     to: "/context-api",
     title: "Context API",
-    desc: "Share state without prop drilling — the React answer to Angular services.",
+    desc: "Share state without prop drilling: the React answer to Angular services.",
   },
   {
     num: "Concept 06",
@@ -41,7 +41,7 @@ const cards = [
     num: "Concept 07",
     to: "/conditional-rendering",
     title: "Conditional Rendering",
-    desc: "Early returns, &&, and ternaries — the JSX way of *ngIf.",
+    desc: "Early returns, &&, and ternaries: the JSX way of *ngIf.",
   },
   {
     num: "Reference",
@@ -61,7 +61,7 @@ export default function Home() {
   return (
     <>
       <div className="hero">
-        <h1>React — Revision Deck</h1>
+        <h1>React Revision Deck</h1>
       </div>
       <div className="grid">
         <Link to="/cheatsheet" className="card featured">
@@ -69,7 +69,7 @@ export default function Home() {
           <h3>⚛ React Cheatsheet</h3>
           <p>
             Every hook, the traps that cause real bugs, and the workflows almost
-            every app needs — structure, routing, auth, RBAC and API calls, with
+            every app needs: structure, routing, auth, RBAC and API calls, with
             the full auth workflow drawn out as diagrams.
           </p>
           <span className="card-cta">Open the cheatsheet →</span>

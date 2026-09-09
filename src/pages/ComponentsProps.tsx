@@ -9,7 +9,7 @@ interface GreetingProps {
 function Greeting({ name, role = 'Guest' }: GreetingProps) {
   return (
     <div className="stat">
-      Hello <strong>{name}</strong> — <em style={{ color: 'var(--text-dim)' }}>{role}</em>
+      Hello <strong>{name}</strong>, <em style={{ color: 'var(--text-dim)' }}>{role}</em>
     </div>
   )
 }
@@ -34,7 +34,7 @@ export default function ComponentsProps() {
 }
 
 function Greeting({ name, role = 'Guest' }: GreetingProps) {
-  return <div>Hello {name} — {role}</div>;
+  return <div>Hello {name}, {role}</div>;
 }
 
 // Parent passes props like HTML attributes:
@@ -42,7 +42,7 @@ function Greeting({ name, role = 'Guest' }: GreetingProps) {
 
       <h2 className="section">Live demo</h2>
       <div className="demo">
-        <div className="demo-label">Type in the inputs — the child re-renders with new props</div>
+        <div className="demo-label">Type in the inputs and the child re-renders with new props</div>
         <input className="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="name" />
         <input className="text" value={role} onChange={(e) => setRole(e.target.value)} placeholder="role" />
         <div style={{ marginTop: '0.75rem' }}>
@@ -55,7 +55,7 @@ function Greeting({ name, role = 'Guest' }: GreetingProps) {
 
       <h2 className="section">Rules</h2>
       <ul className="mistakes">
-        <li><strong>Props are read-only.</strong> Never assign to a prop inside the component — mutate state in the parent and pass it down.</li>
+        <li><strong>Props are read-only.</strong> Never assign to a prop inside the component. Mutate state in the parent and pass it down.</li>
         <li><strong>Component names must start with a capital letter.</strong> <code>{'<greeting />'}</code> is treated as an HTML tag; <code>{'<Greeting />'}</code> is a React component.</li>
         <li><strong>Children are just a special prop.</strong> Anything between <code>{'<X>...</X>'}</code> is available as <code>props.children</code>.</li>
       </ul>

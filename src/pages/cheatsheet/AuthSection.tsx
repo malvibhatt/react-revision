@@ -5,7 +5,7 @@ import { AUTH_DIAGRAMS } from './authDiagrams'
 export default function AuthSection() {
   return (
     <>
-      <h2 className="section">Auth flow — the moving parts</h2>
+      <h2 className="section">Auth flow: the moving parts</h2>
       <p className="para">High-level shape. Swap in your own endpoints and token storage.</p>
 
       <div className="flow">
@@ -22,7 +22,7 @@ export default function AuthSection() {
 
       <h2 className="section">Workflow diagrams</h2>
       <p className="para">
-        The same flow drawn end to end, then one worked example per use case — login, an allowed admin route, a
+        The same flow drawn end to end, then one worked example per use case: login, an allowed admin route, a
         permission-denied route and an unauthenticated route. Diamonds are decisions, rectangles are actions,
         cylinders are stores.
       </p>
@@ -49,7 +49,7 @@ export const api = axios.create({
   withCredentials: true,   // needed if the refresh token is an httpOnly cookie
 });`}</Code>
 
-      <h2 className="section">2. Request interceptor — attach the token</h2>
+      <h2 className="section">2. Request interceptor: attach the token</h2>
       <Code>{`// src/api/interceptors.ts
 api.interceptors.request.use((config) => {
   const token = tokenStore.getAccess();
@@ -57,7 +57,7 @@ api.interceptors.request.use((config) => {
   return config;
 });`}</Code>
 
-      <h2 className="section">3. Response interceptor — refresh once, queue the rest</h2>
+      <h2 className="section">3. Response interceptor: refresh once, queue the rest</h2>
       <p className="para">
         The subtle part: if five requests 401 at the same moment you must refresh <em>once</em> and replay all five,
         not fire five refresh calls.
@@ -175,7 +175,7 @@ const from = location.state?.from?.pathname ?? '/';
 await login(creds);
 navigate(from, { replace: true });`}</Code>
 
-      <h2 className="section">RBAC — roles &amp; permissions</h2>
+      <h2 className="section">RBAC: roles &amp; permissions</h2>
       <p className="para">Map roles to permissions in one file, then check <em>permissions</em> everywhere else. Adding a role becomes a one-line change.</p>
 
       <Code>{`// src/constants/roles.ts
@@ -234,7 +234,7 @@ export function Can({ perm, children, fallback = null }) {
 
       <div className="danger-note">
         <strong>Client-side RBAC is UX, not security.</strong> It hides buttons and routes so users are not offered actions they
-        cannot perform. Anyone can edit the JavaScript in their browser — the API must enforce the same rules on every single
+        cannot perform. Anyone can edit the JavaScript in their browser, so the API must enforce the same rules on every single
         request. Never trust a role decoded from a token on the client.
       </div>
     </>

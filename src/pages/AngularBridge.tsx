@@ -12,8 +12,8 @@ export default function AngularBridge() {
       <table className="map">
         <thead><tr><th>Angular</th><th>React</th></tr></thead>
         <tbody>
-          <tr><td><code>@Input() foo</code></td><td>Prop — <code>{'function C({ foo })'}</code></td></tr>
-          <tr><td><code>@Output() onSave</code></td><td>Callback prop — <code>{'onSave: (v) => void'}</code></td></tr>
+          <tr><td><code>@Input() foo</code></td><td>Prop: <code>{'function C({ foo })'}</code></td></tr>
+          <tr><td><code>@Output() onSave</code></td><td>Callback prop: <code>{'onSave: (v) => void'}</code></td></tr>
           <tr><td><code>[(ngModel)]="name"</code></td><td><code>{'value={name} onChange={(e) => setName(e.target.value)}'}</code></td></tr>
         </tbody>
       </table>

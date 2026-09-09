@@ -21,7 +21,7 @@ export default function CommonMistakes() {
 <button onClick={() => setN(n + 1)} />`}</Code>
 
       <h2 className="section">2. Never mutate state directly</h2>
-      <Code>{`// same reference — React thinks nothing changed
+      <Code>{`// same reference: React thinks nothing changed
 transactions.push(newTx);
 setTransactions(transactions);
 
@@ -52,7 +52,7 @@ function Ok({ user }) {
 }`}</Code>
 
       <h2 className="section">5. Always give lists a stable key</h2>
-      <Code>{`// index changes when list reorders — breaks child state
+      <Code>{`// index changes when list reorders: breaks child state
 {items.map((item, i) => <Row key={i} item={item} />)}
 
 // stable id from the data itself
@@ -62,7 +62,7 @@ function Ok({ user }) {
       <p className="para">Wrapping <code>a + b</code> in <code>useMemo</code> is slower than just computing it. Reach for it when you have a big filter/map/reduce chain, or when the value is passed to a memoized child that would otherwise re-render on every parent render.</p>
 
       <h2 className="section">7. Missing dependency array</h2>
-      <Code>{`// runs after every render — often infinite loop
+      <Code>{`// runs after every render: often an infinite loop
 useEffect(() => fetchData());
 
 // once on mount
@@ -76,7 +76,7 @@ useEffect(() => { fetchData(userId) }, [userId]);`}</Code>
         <li><strong>Setter inside JSX?</strong> Move it to an event handler.</li>
         <li><strong>Modifying an array/object?</strong> Spread it into a new one.</li>
         <li><strong>Handler firing on mount?</strong> You probably wrote <code>{'onClick={fn(arg)}'}</code> instead of <code>{'onClick={() => fn(arg)}'}</code>.</li>
-        <li><strong>List not updating right?</strong> Check your <code>key</code> — is it stable?</li>
+        <li><strong>List not updating right?</strong> Check your <code>key</code>. Is it stable?</li>
         <li><strong>useEffect re-running unexpectedly?</strong> Check its dependency array for object/array literals that get a new reference each render.</li>
       </ul>
     </>

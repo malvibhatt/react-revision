@@ -23,7 +23,7 @@ export default function UseEffect() {
   return (
     <>
       <h1 className="lesson-title">useEffect</h1>
-      <p className="lesson-sub">Run side effects <em>after</em> render — DOM updates, subscriptions, network calls, timers.</p>
+      <p className="lesson-sub">Run side effects <em>after</em> render: DOM updates, subscriptions, network calls, timers.</p>
 
       <div className="highlight">
         <code>useEffect(fn, deps)</code> runs <code>fn</code> after render, and again whenever a value in <code>deps</code> changes. Return a <strong>cleanup function</strong> to tear the effect down before the next run or on unmount.
@@ -45,7 +45,7 @@ export default function UseEffect() {
 }, [notes]); // re-run whenever notes change`}</Code>
 
       <div className="demo">
-        <div className="demo-label">Type a note, hit Add. Refresh the page — it persists.</div>
+        <div className="demo-label">Type a note, hit Add. Refresh the page and it persists.</div>
         <input
           className="text"
           value={draft}

@@ -25,7 +25,7 @@ const CHECKLIST = [
   'Every fetch inside an effect is abortable',
   'Keys are stable ids, not array indexes',
   'Loading, error, empty and success all render something',
-  'No state mutation — new references everywhere',
+  'No state mutation, new references everywhere',
   'Context provider value is memoized',
   'Async setState uses the updater form',
   'finally resets submitting on both success and failure',
@@ -49,7 +49,7 @@ export default function ReferenceSection() {
       <h2 className="section">Custom hooks worth owning</h2>
       <p className="para">Every app ends up needing these. Write them once in <code>src/hooks/</code>.</p>
 
-      <p className="hook-extra-label">useDebounce — delay expensive work (search, autosave)</p>
+      <p className="hook-extra-label">useDebounce: delay expensive work (search, autosave)</p>
       <Code>{`export function useDebounce<T>(value: T, delay = 400): T {
   const [debounced, setDebounced] = useState(value);
 
@@ -61,7 +61,7 @@ export default function ReferenceSection() {
   return debounced;
 }`}</Code>
 
-      <p className="hook-extra-label">useLocalStorage — state that survives a refresh</p>
+      <p className="hook-extra-label">useLocalStorage: state that survives a refresh</p>
       <Code>{`export function useLocalStorage<T>(key: string, initial: T) {
   const [value, setValue] = useState<T>(() => {
     try {
@@ -77,13 +77,13 @@ export default function ReferenceSection() {
   return [value, setValue] as const;
 }`}</Code>
 
-      <p className="hook-extra-label">useToggle — modals, drawers, accordions</p>
+      <p className="hook-extra-label">useToggle: modals, drawers, accordions</p>
       <Code>{`export const useToggle = (init = false) => {
   const [on, setOn] = useState(init);
   return [on, useCallback(() => setOn(v => !v), [])] as const;
 };`}</Code>
 
-      <p className="hook-extra-label">useClickOutside — close dropdowns and popovers</p>
+      <p className="hook-extra-label">useClickOutside: close dropdowns and popovers</p>
       <Code>{`export function useClickOutside<T extends HTMLElement>(
   ref: RefObject<T>,
   onOutside: () => void,
@@ -97,7 +97,7 @@ export default function ReferenceSection() {
   }, [ref, onOutside]);
 }`}</Code>
 
-      <p className="hook-extra-label">usePrevious — compare against the last render</p>
+      <p className="hook-extra-label">usePrevious: compare against the last render</p>
       <Code>{`export function usePrevious<T>(value: T) {
   const ref = useRef<T>(undefined);
   useEffect(() => { ref.current = value; }, [value]);

@@ -25,7 +25,7 @@ flowchart TD
     Guard --> D1{"isAuthenticated?"}
     D1 -->|No| Redirect["Redirect to Login Page"]
     D1 -->|Yes| D2{"canAccess?<br/>hasAllPermissions / hasAnyPermission / hasAnyRole"}
-    D2 -->|No| Deny["403 Forbidden —<br/>stay on previous page"]
+    D2 -->|No| Deny["403 Forbidden:<br/>stay on previous page"]
     D2 -->|Yes| Render["Render protected route"]
     Render --> API["API call to fetch data"]
     API --> ReqInt["Request Interceptor:<br/>attach token"]
@@ -57,7 +57,7 @@ flowchart TD
   },
   {
     id: 'uc1',
-    title: 'Use case — user logs in & app loads the dashboard',
+    title: 'Use case: user logs in & app loads the dashboard',
     tag: 'Success path',
     tagKind: 'ok',
     scenario:
@@ -88,7 +88,7 @@ flowchart TD
   },
   {
     id: 'uc2',
-    title: 'Use case — admin opens /EmployeesPage',
+    title: 'Use case: admin opens /EmployeesPage',
     tag: 'Access allowed',
     tagKind: 'ok',
     scenario:
@@ -99,8 +99,8 @@ flowchart TD
     B --> C["Routing: route requires ['read','write']"]
     C --> D["AuthGuard"]
     D --> E{"isAuthenticated?"}
-    E -->|"Yes — admin session active"| F{"canAccess:<br/>hasAllPermissions(['read','write'])?"}
-    F -->|"Yes — admin has read + write"| G["Access granted"]
+    E -->|"Yes: admin session active"| F{"canAccess:<br/>hasAllPermissions(['read','write'])?"}
+    F -->|"Yes: admin has read + write"| G["Access granted"]
     G --> H["Render /EmployeesPage"]
     H --> I["API call: fetch employees list"]
     I --> J["Request Interceptor attaches token"]
@@ -116,18 +116,18 @@ flowchart TD
   },
   {
     id: 'uc3',
-    title: 'Use case — employee opens /EmployeesPage directly via URL',
-    tag: 'Denied — RBAC',
+    title: 'Use case: employee opens /EmployeesPage directly via URL',
+    tag: 'Denied: RBAC',
     tagKind: 'deny',
     scenario:
-      "role = employee, permissions = ['read'] only. The route requires ['read','write']. The employee is authenticated (passes step 1) but fails the permission check, so the guard blocks the render and keeps them on their current page — no redirect to login, since they are logged in.",
+      "role = employee, permissions = ['read'] only. The route requires ['read','write']. The employee is authenticated (passes step 1) but fails the permission check, so the guard blocks the render and keeps them on their current page, with no redirect to login, since they are logged in.",
     chart: `
 flowchart TD
     A(["Employee pastes /EmployeesPage into the URL bar"]) --> B["Routing: route requires ['read','write']"]
     B --> C["AuthGuard"]
     C --> D{"isAuthenticated?"}
-    D -->|"Yes — employee session active"| E{"canAccess:<br/>hasAllPermissions(['read','write'])?"}
-    E -->|"No — employee only has ['read']"| F["Access denied (403 Forbidden)"]
+    D -->|"Yes: employee session active"| E{"canAccess:<br/>hasAllPermissions(['read','write'])?"}
+    E -->|"No: employee only has ['read']"| F["Access denied (403 Forbidden)"]
     F --> G["Stay on current / previous page"]
     G --> H["Show 'You don't have permission' toast"]
 
@@ -139,17 +139,17 @@ flowchart TD
   },
   {
     id: 'uc4',
-    title: 'Use case — guest opens /EmployeesPage directly via URL',
-    tag: 'Denied — unauthenticated',
+    title: 'Use case: guest opens /EmployeesPage directly via URL',
+    tag: 'Denied: unauthenticated',
     tagKind: 'auth',
     scenario:
-      'No active session / no token in TokenStore. The very first guard check (isAuthenticated) fails, so the permission check never even runs — the guest is redirected straight to the login page.',
+      'No active session / no token in TokenStore. The very first guard check (isAuthenticated) fails, so the permission check never even runs. The guest is redirected straight to the login page.',
     chart: `
 flowchart TD
     A(["Guest (not logged in) pastes /EmployeesPage into the URL bar"]) --> B["Routing: route requires ['read','write']"]
     B --> C["AuthGuard"]
     C --> D{"isAuthenticated?"}
-    D -->|"No — no token in TokenStore / no session"| E["Redirect to /Login"]
+    D -->|"No: no token in TokenStore / no session"| E["Redirect to /Login"]
     E --> F["Stay on Login Page"]
     F --> G["Show 'Please log in to continue' message"]
 

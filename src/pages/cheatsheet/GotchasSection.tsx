@@ -23,7 +23,7 @@ function Tip({ n, title, purpose, children }: TipProps) {
 export default function GotchasSection() {
   return (
     <>
-      <h2 className="section">Tips &amp; gotchas — each one with the reason behind it</h2>
+      <h2 className="section">Tips &amp; gotchas, each one with the reason behind it</h2>
       <p className="para">These are the bugs that reach production. Every rule below states what it prevents.</p>
 
       <Tip n={1} title="Always clean up your effects" purpose="prevents memory leaks and state updates on unmounted components">
@@ -58,10 +58,10 @@ export default function GotchasSection() {
         <p className="para">Without this, switching <code>id</code> quickly means request #1 can resolve <em>after</em> request #2 and win.</p>
       </Tip>
 
-      <Tip n={3} title="Never mutate state" purpose="React compares by reference — same reference means no re-render">
+      <Tip n={3} title="Never mutate state" purpose="React compares by reference, so same reference means no re-render">
         <div className="two-col">
           <div className="col-bad">
-            <div className="col-head">Mutation — UI does not update</div>
+            <div className="col-head">Mutation: UI does not update</div>
             <Code>{`items.push(newItem);
 setItems(items);`}</Code>
           </div>
@@ -79,7 +79,7 @@ setState(prev => ({
         </div>
       </Tip>
 
-      <Tip n={4} title="Use stable, meaningful keys" purpose="correct reconciliation — index keys reuse the wrong DOM node">
+      <Tip n={4} title="Use stable, meaningful keys" purpose="correct reconciliation: index keys reuse the wrong DOM node">
         <div className="two-col">
           <div className="col-bad">
             <div className="col-head">Breaks on insert / delete / sort</div>
@@ -100,7 +100,7 @@ setState(prev => ({
 }, []);`}</Code>
       </Tip>
 
-      <Tip n={6} title="Don't copy derived data into state" purpose="single source of truth — avoids desync and an extra render">
+      <Tip n={6} title="Don't copy derived data into state" purpose="single source of truth: avoids desync and an extra render">
         <div className="two-col">
           <div className="col-bad">
             <div className="col-head">Two sources of truth</div>
@@ -123,7 +123,7 @@ useEffect(() => {
         <Code>{`{data?.items?.map(renderRow) ?? <EmptyState />}`}</Code>
       </Tip>
 
-      <Tip n={8} title="Effects run twice in dev StrictMode" purpose="it deliberately surfaces missing cleanup — don't disable it">
+      <Tip n={8} title="Effects run twice in dev StrictMode" purpose="it deliberately surfaces missing cleanup, so don't disable it">
         <p className="para">If running an effect twice breaks your app, the effect is not idempotent. Fix the effect, not StrictMode.</p>
       </Tip>
 
@@ -143,7 +143,7 @@ const onChange = (e) =>
   componentDidCatch(err, info) { logToService(err, info); }
   render() { return this.state.hasError ? <Fallback /> : this.props.children; }
 }`}</Code>
-        <p className="para">Wrap routes and independent widgets. You still need <code>try/catch</code> for promises and event handlers — boundaries do not see those.</p>
+        <p className="para">Wrap routes and independent widgets. You still need <code>try/catch</code> for promises and event handlers, because boundaries do not see those.</p>
       </Tip>
     </>
   )
