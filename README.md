@@ -10,6 +10,7 @@ Every concept lives on exactly one page: the rule you need to remember, the code
 and a live demo you can poke at. No scrolling through forty minutes of video to find the one
 paragraph you actually forgot.
 
+Live on: https://react-revision-xi.vercel.app/ 
 ---
 
 ## Why this works when tutorials don't
