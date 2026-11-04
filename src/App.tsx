@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import ComponentsProps from "./pages/ComponentsProps";
@@ -11,6 +12,11 @@ import AsyncData from "./pages/AsyncData";
 import AngularBridge from "./pages/AngularBridge";
 import CommonMistakes from "./pages/CommonMistakes";
 import Cheatsheet from "./pages/Cheatsheet";
+import OnlineTools from "./pages/OnlineTools";
+import PageSkeleton from "./components/PageSkeleton";
+import ReviewOverview from "./pages/review/Overview";
+import ReviewRoute from "./pages/review/ReviewRoute";
+import { reviewPages } from "./pages/review/reviewPages";
 
 const lessons = [
   { path: "/components-props", title: "1. Components + Props" },
@@ -27,6 +33,13 @@ const extras = [
   { path: "/cheatsheet", title: "⚛ React Cheatsheet" },
   { path: "/angular-bridge", title: "Angular → React map" },
   { path: "/common-mistakes", title: "Common mistakes" },
+  { path: "/online-tools", title: "Guide with online coding tools" },
+];
+
+// The review group is derived from reviewPages, so a new page is one entry there.
+const review = [
+  { path: "/review", title: "How to read these", end: true },
+  ...reviewPages.map((p) => ({ path: `/review/${p.slug}`, title: p.nav, end: false })),
 ];
 
 function App() {
@@ -52,6 +65,15 @@ function App() {
           ))}
         </nav>
 
+        <div className="section-label">Code review</div>
+        <nav>
+          {review.map((l) => (
+            <NavLink key={l.path} to={l.path} end={l.end}>
+              {l.title}
+            </NavLink>
+          ))}
+        </nav>
+
         <div className="section-label">Reference</div>
         <nav>
           {extras.map((l) => (
@@ -63,23 +85,28 @@ function App() {
       </aside>
 
       <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/components-props" element={<ComponentsProps />} />
-          <Route path="/use-state" element={<UseState />} />
-          <Route path="/use-memo" element={<UseMemo />} />
-          <Route path="/use-effect" element={<UseEffect />} />
-          <Route path="/context-api" element={<ContextAPI />} />
-          <Route path="/router" element={<Router />} />
-          <Route
-            path="/conditional-rendering"
-            element={<ConditionalRendering />}
-          />
-          <Route path="/async-data" element={<AsyncData />} />
-          <Route path="/angular-bridge" element={<AngularBridge />} />
-          <Route path="/common-mistakes" element={<CommonMistakes />} />
-          <Route path="/cheatsheet" element={<Cheatsheet />} />
-        </Routes>
+        <Suspense fallback={<PageSkeleton />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/components-props" element={<ComponentsProps />} />
+            <Route path="/use-state" element={<UseState />} />
+            <Route path="/use-memo" element={<UseMemo />} />
+            <Route path="/use-effect" element={<UseEffect />} />
+            <Route path="/context-api" element={<ContextAPI />} />
+            <Route path="/router" element={<Router />} />
+            <Route
+              path="/conditional-rendering"
+              element={<ConditionalRendering />}
+            />
+            <Route path="/async-data" element={<AsyncData />} />
+            <Route path="/angular-bridge" element={<AngularBridge />} />
+            <Route path="/common-mistakes" element={<CommonMistakes />} />
+            <Route path="/cheatsheet" element={<Cheatsheet />} />
+            <Route path="/online-tools" element={<OnlineTools />} />
+            <Route path="/review" element={<ReviewOverview />} />
+            <Route path="/review/:slug" element={<ReviewRoute />} />
+          </Routes>
+        </Suspense>
       </main>
     </div>
   );

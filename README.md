@@ -58,6 +58,26 @@ The centrepiece. Tabbed, deep-linkable, and built around the workflows you actua
 | **API Calls** | A reusable fetch hook with loading/error/abort, all four render states, POST with field errors and no double-submit, and the same thing in React Query |
 | **Reference** | An "I need to… → use this" decision table, custom hooks worth owning, and a pre-ship checklist |
 
+### 🔎 Code review: five pages, twenty-five findings
+
+The section for when a reviewer has asked you to justify a change, or when something is
+broken and the code looks fine. Not a rules list — each finding is **the code that causes
+it, what it costs you later, and the version that avoids it**, in six fixed beats: why a
+competent person writes it, the code, the numbered consequences, the tell you can spot while
+editing, the fix, and the rule in one line.
+
+| Page | The five findings |
+| --- | --- |
+| **The effect that never cleaned up** | Uncleaned intervals, listeners you cannot remove, discarded unsubscribers, the fetch race where the slow answer wins, and the effect that was never an effect |
+| **Work that happens for no reason** | The context value rebuilt every render, `memo` defeated by an inline prop, `key={i}` on a list that moves, `useMemo` cheaper to delete, and state living above its readers |
+| **Everything, downloaded on the login screen** | Eager routes, a heavy library at module scope, barrel files, `lazy()` called during render, and the Suspense boundary that blanks the app |
+| **Where the code went, and what it cost** | The HTTP client in a component, sideways feature imports, the screen welded to one URL, business rules inside JSX, and `lib/` importing `features/` |
+| **State that is wrong, not just slow** | Mutation, the autosave that saves an empty string, server data with no owner, six booleans for four states, and the 500 that renders as "you have no transactions" |
+
+Every finding is set in one imaginary app (TrackWise) so the examples accumulate into a
+codebase rather than twenty-five unrelated snippets — and two of them are **live in this
+repo**, with the numbers taken from its own `dist/`.
+
 ### 🔐 Auth & RBAC, drawn out properly
 
 The tab that goes deepest, covering the parts most cheatsheets skip:
@@ -121,7 +141,10 @@ deep links like `/cheatsheet#auth` survive a hard refresh instead of 404ing.
 ```
 src/
 ├── components/
-│   ├── Code.tsx           # syntax highlighter
+│   ├── Code.tsx           # syntax highlighter, with bad/good labelling
+│   ├── Callout.tsx        # trap / warn / good / why / note asides
+│   ├── Table.tsx          # the "tells" lookup tables
+│   ├── PageSkeleton.tsx   # fallback for lazily-loaded pages
 │   └── Mermaid.tsx        # dark-themed diagram renderer
 ├── pages/
 │   ├── Home.tsx           # the overview deck
@@ -129,6 +152,10 @@ src/
 │   ├── cheatsheet/        # one file per tab
 │   │   ├── hooksData.ts       # all 18 hooks
 │   │   └── authDiagrams.ts    # the workflow diagrams
+│   ├── review/            # the code-review section
+│   │   ├── reviewPages.ts     # one list: router + sidebar + index
+│   │   ├── Overview.tsx       # how to read a finding
+│   │   └── …                  # one file per page, lazy-loaded
 │   └── …                  # one file per concept page
 └── index.css              # tokens + every component style
 ```
