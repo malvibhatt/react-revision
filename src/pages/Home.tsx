@@ -55,6 +55,12 @@ const cards = [
     title: "Common Mistakes",
     desc: "Traps to remember: mutation, stale state, hook rules.",
   },
+  {
+    num: "Code review",
+    to: "/review",
+    title: "React Code Review",
+    desc: "Mistakes that pass review: the code, what it costs you later, the version that avoids it.",
+  },
 ];
 
 export default function Home() {

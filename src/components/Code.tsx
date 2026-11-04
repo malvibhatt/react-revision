@@ -67,11 +67,49 @@ function highlight(src: string): string {
   return parts.join('')
 }
 
-interface Props {
-  children: string
+
+/**
+ * Code samples come in three flavours. `bad` and `good` always carry a word and
+ * a glyph as well as a colour, so "avoid this" vs "do this" survives greyscale
+ * and colour blindness (WCAG 1.4.1). `plain` is the original, unlabelled block.
+ */
+export type CodeKind = 'bad' | 'good' | 'plain'
+
+const CODE_LABELS: Record<CodeKind, [string | null, string | null]> = {
+  bad: ['Avoid', '✕'],
+  good: ['Instead', '✓'],
+  plain: [null, null],
 }
 
-export default function Code({ children }: Props) {
+interface Props {
+  children: string
+  /** Defaults to `plain`, which renders exactly the bare <pre> it always has. */
+  kind?: CodeKind
+  /** Overrides the default word for the kind. */
+  label?: string
+  /** Usually the file path this sample lives at. */
+  caption?: string
+}
+
+export default function Code({ children, kind = 'plain', label, caption }: Props) {
   const html = useMemo(() => highlight(children.replace(/^\n/, '').replace(/\n$/, '')), [children])
-  return <pre className="code" dangerouslySetInnerHTML={{ __html: html }} />
+  const pre = <pre className="code" tabIndex={0} dangerouslySetInnerHTML={{ __html: html }} />
+
+  const [defaultLabel, glyph] = CODE_LABELS[kind] ?? CODE_LABELS.plain
+  const heading = label ?? defaultLabel
+
+  // No label and no caption: stay byte-identical to the original component, so
+  // the twelve existing concept pages render unchanged.
+  if (!heading && !caption) return pre
+
+  return (
+    <div className={`code-block code-block--${kind}`}>
+      <p className="code-block__label">
+        {glyph && <span aria-hidden="true">{glyph}</span>}
+        {heading}
+        {caption && <span className="code-block__caption">{caption}</span>}
+      </p>
+      {pre}
+    </div>
+  )
 }

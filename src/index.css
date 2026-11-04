@@ -779,3 +779,187 @@ ul.checklist li::before {
   font-weight: 600;
   color: var(--accent-2);
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   CODE REVIEW PRIMITIVES
+   Shared by the /review pages. Each callout kind reuses a colour
+   already in this file, so the new blocks look native next to
+   .highlight, .danger-note and .tip-purpose.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Labelled code block (Code.tsx with kind/caption) ── */
+.code-block { margin-bottom: 1.25rem; }
+.code-block__label {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  margin-bottom: 0.45rem;
+}
+.code-block__label > span[aria-hidden] {
+  font-size: 0.78rem;
+  line-height: 1;
+}
+/* The caption is a file path, so it opts out of the label's uppercasing. */
+.code-block__caption {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.72rem;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+.code-block--bad   .code-block__label { color: #fca5a5; }
+.code-block--good  .code-block__label { color: var(--success-dim); }
+.code-block--plain .code-block__label { color: var(--accent-2); }
+.code-block--bad   pre.code { border-left: 3px solid var(--danger); }
+.code-block--good  pre.code { border-left: 3px solid var(--success); }
+.code-block--plain pre.code { border-left: 3px solid var(--accent); }
+.code-block pre.code { margin-bottom: 0; }
+/* Scrollable region, so it has to be reachable by keyboard. */
+pre.code:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+
+/* ── Callout ── */
+.callout {
+  border-left: 3px solid var(--border);
+  border-radius: 4px;
+  padding: 0.9rem 1.1rem;
+  margin: 1.25rem 0;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+.callout__label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+  margin-bottom: 0.55rem;
+}
+.callout p + p { margin-top: 0.7rem; }
+.callout p:not(.callout__label) { color: inherit; }
+.callout code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.85em;
+}
+.callout ul, .callout ol { margin: 0.5rem 0 0 1.1rem; }
+.callout li { margin-bottom: 0.35rem; }
+.callout pre.code { margin: 0.75rem 0 0; }
+
+.callout--trap { background: rgba(239, 68, 68, 0.1);  border-left-color: var(--danger);  color: #fecaca; }
+.callout--trap .callout__label { color: #fca5a5; }
+.callout--trap strong { color: #fca5a5; }
+
+.callout--warn { background: rgba(245, 158, 11, 0.1); border-left-color: var(--warn);    color: #fde68a; }
+.callout--warn .callout__label { color: #fcd34d; }
+.callout--warn strong { color: #fcd34d; }
+
+.callout--good { background: rgba(34, 197, 94, 0.08); border-left-color: var(--success); color: var(--success-dim); }
+.callout--good .callout__label { color: var(--success); }
+.callout--good strong { color: var(--success); }
+
+.callout--why  { background: rgba(99, 102, 241, 0.12); border-left-color: var(--accent); color: #c7d2fe; }
+.callout--why .callout__label { color: var(--accent-2); }
+.callout--why strong { color: var(--accent-2); }
+
+.callout--note { background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6;        color: #bfdbfe; }
+.callout--note .callout__label { color: #dbeafe; }
+.callout--note strong { color: #dbeafe; }
+
+/* ── Table wrapper ── */
+/* Wide tables scroll here, so the page body never scrolls sideways. */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+.table-wrap table.map { margin-bottom: 0; }
+.table-wrap caption {
+  caption-side: top;
+  text-align: left;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  padding-bottom: 0.5rem;
+}
+table.map th.row-head {
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.85rem;
+  vertical-align: top;
+}
+table.map td { vertical-align: top; color: var(--text-dim); }
+
+/* ── Anchored section headings on review pages ── */
+/* Sticky sidebar is full-height, so an in-page anchor needs breathing room. */
+h2.section[id], h3.sub[id] { scroll-margin-top: 1.5rem; }
+h3.sub {
+  font-size: 0.98rem;
+  color: var(--text-strong);
+  font-weight: 600;
+  margin: 1.5rem 0 0.6rem;
+}
+
+/* ── Screen-reader-only utility ── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Index card for a page that is planned but not written ── */
+.card.pending {
+  border-style: dashed;
+  background: transparent;
+}
+.card.pending h3 { color: var(--text); }
+.card-flag {
+  margin-left: 0.5rem;
+  color: var(--text-dim);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* ── Six-beat strip on the review overview ── */
+/* Narrower basis than the auth flow strip, because six fit where five did.
+   Scoped, so the cheatsheet's Auth strip keeps its own sizing. */
+.flow--beats .flow-step { flex: 1 1 130px; }
+
+/* ── Lazy-page fallback ── */
+/* Sized like a page rather than centred, so the real content does not shift
+   the layout when it arrives. */
+.skeleton { max-width: 70ch; }
+.sk-line, .sk-block {
+  background: linear-gradient(90deg, var(--panel) 25%, #27364d 50%, var(--panel) 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: sk-shimmer 1.4s ease-in-out infinite;
+}
+.sk-line { height: 0.85rem; margin-bottom: 0.7rem; }
+.sk-title { height: 1.75rem; width: 60%; margin-bottom: 0.9rem; }
+.sk-sub { width: 85%; margin-bottom: 2rem; }
+.sk-short { width: 45%; }
+.sk-block { height: 7rem; margin: 1.5rem 0; }
+@keyframes sk-shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sk-line, .sk-block { animation: none; }
+}
